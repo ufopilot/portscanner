@@ -11,23 +11,18 @@ help(){
   echo " Options:"
   echo "  -s <STR,...,STR>      # servers or ips"
   echo "  -p <INT,...,INT-INT>  # single ports or ranges"
-  echo "  -o <text|table>       # default table"
   echo "  -t <INT>              # timeout. default 3 seconds"
   echo "  -h                    # display this text"
   echo 
   echo " Examples:"
-  echo "  firewallchecker -s vrpiatauv001.pms.bankenit.de -p 80,443"
-  echo "  firewallchecker -s vrpiatauv001.pms.bankenit.de,vrpiatauv002.pms.bankenit.de -p 2260,2261 -t 5"
+  echo "  portscanner -s vrpiatauv001.domain.com -p 80,443"
+  echo "  portscanner -s vrpiatauv001.domain.com,vrpiatauv002.domain.com -p 2260,2261 -t 5"
   exit
-
-  #portscanner -s $(echo {n,w}xpiawc{cm,gw,ro,rb}{2,3,4,5,6,7,8,9,k,l,x,y}01.gadeg.de {n,w}xpiawcro{2,3,4,5,6,7,8,9,k,l,x,y}02.gadeg.de|tr ' ' ',') -p 22 -t 1
 
 }
 
 tableTopLine(){
   [ $1 -a $1 = "header" ] && SYMB="─" || SYMB="┬"
-  #SYMB1="-"; SYMB2="-"; SYMB3="-"
-  #[ "$OUTPUT" = "text" ] && { SYMB1="-"; SYMB2="-"; SYMB3="-"; } 
   printf '┌' 
   printf '─%.0s' {1..40}
   printf $SYMB
@@ -116,18 +111,9 @@ headerBottomLine(){
   tableBottomLine header
 }
 
-
-#yellow "\e[1;33mINFO\e[0m"
-#blue "\e[1;34mINFO\e[0m"
-#green "\e[1;32mINFO\e[0m"
-#red "\e[1;31mINFO\e[0m"
-#magenta "\e[1;35mINFO\e[0m"
-
-
 SERVERS=""
 PORTS=""
 TIMEOUT=3
-OUTPUT=table
 SYMBOLS="[↳➤☀↺✔✘+⮨←✪✎]"
 export LANG=en_US.UTF-8
 
@@ -136,7 +122,7 @@ case $(uname) in
   *)        __timeOut="timeout $TIMEOUT";;
 esac
 
-while getopts s:p:t:o:h opt
+while getopts s:p:t:h opt
 do
    case $opt in
        s) 
@@ -150,8 +136,6 @@ do
           done
          ;;
        t) TIMEOUT=$OPTARG;;
-       o) OUTPUT=$OPTARG
-          [ "$OUTPUT" != "table" -a "$OUTPUT" != "text" ] && OUTPUT=table;;
        h) help;;
        ?) help;;
    esac
