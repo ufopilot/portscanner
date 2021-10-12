@@ -111,6 +111,7 @@ headerBottomLine(){
   tableBottomLine header
 }
 
+clear
 SERVERS=""
 PORTS=""
 TIMEOUT=3
